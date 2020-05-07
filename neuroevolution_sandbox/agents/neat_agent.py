@@ -1,6 +1,17 @@
+import gzip
+import pickle
 import numpy as np
-
 import neat
+from neat.reporting import BaseReporter
+
+
+class SaveBesGenomeReporter(BaseReporter):
+
+    def __init__(self):
+        self.best_genome = None
+
+    def found_solution(self, config, generation, best):
+        self.best_genome = best
 
 
 class NeatAgent:
@@ -10,6 +21,7 @@ class NeatAgent:
         self.play_n_times = 1
         self.max_n_steps = float('inf')
         self.reward_if_max_step_reached = 0
+        self.save_best_genome_reporter = SaveBesGenomeReporter()
 
         self.config = neat.Config(
             neat.DefaultGenome,
@@ -32,6 +44,7 @@ class NeatAgent:
 
         for reporter in reporters:
             p.add_reporter(reporter)
+        p.add_reporter(self.save_best_genome_reporter)
 
         winner = p.run(self.calculate_fitness, number_of_generations)
         self.best_net = neat.nn.FeedForwardNetwork.create(winner, self.config)
@@ -42,13 +55,13 @@ class NeatAgent:
             genome.fitness = np.mean([self.play(net) for _ in range(self.play_n_times)])
 
     def save(self, file_path):
-        pass
+        with gzip.open(file_path, 'w+', compresslevel=5) as file:
+            pickle.dump(self.save_best_genome_reporter.best_genome, file, protocol=pickle.HIGHEST_PROTOCOL)
 
     def load(self, file_path):
-        p = neat.Checkpointer.restore_checkpoint(file_path)
-        filtered_population = [e for e in list(p.population.values()) if e.fitness is not None]
-        winner = max(filtered_population, key=lambda e: e.fitness)
-        self.best_net = neat.nn.FeedForwardNetwork.create(winner, self.config)
+        with gzip.open(file_path) as file:
+            genome = pickle.load(file)
+            self.best_net = neat.nn.FeedForwardNetwork.create(genome, self.config)
 
     def play(self, net=None):
         net = self.best_net if net is None else net
