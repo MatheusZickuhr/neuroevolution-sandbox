@@ -1,4 +1,3 @@
-import gym
 
 from python_ne.core.ga.console_logger import ConsoleLogger
 from python_ne.core.ga.crossover_strategies import NoCrossover
@@ -9,9 +8,8 @@ from neuroevolution_sandbox.agents.ne_agent import NeAgent
 from neuroevolution_sandbox.env_adapters.gym_env_adapter import GymEnvAdapter
 
 if __name__ == '__main__':
-    env = gym.make('LunarLander-v2')
 
-    env_adapter = GymEnvAdapter(env=env, render=False, continuous=False)
+    env_adapter = GymEnvAdapter(env_name='LunarLander-v2', render=True, continuous=False)
 
     agent = NeAgent(
         env_adapter=env_adapter,
@@ -38,4 +36,4 @@ if __name__ == '__main__':
         reward_if_max_step_reached=-200
     )
 
-    agent.save('ne_agent.json')
+    # agent.save('ne_agent.json')

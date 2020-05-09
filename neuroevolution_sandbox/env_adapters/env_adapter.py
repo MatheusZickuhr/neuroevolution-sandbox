@@ -1,9 +1,10 @@
 class EnvAdapter:
 
-    def __init__(self, env, render=False, continuous=False):
-        self.env = env
+    def __init__(self, env_name, render=False, continuous=False):
+        self.env_name = env_name
         self.render = render
         self.continuous = continuous
+        self.env = None
 
     def get_input_shape(self):
         raise NotImplementedError('get_input_shape method must be implemented')

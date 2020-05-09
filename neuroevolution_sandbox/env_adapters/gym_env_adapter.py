@@ -1,7 +1,11 @@
 from neuroevolution_sandbox.env_adapters.env_adapter import EnvAdapter
+import gym
 
 
 class GymEnvAdapter(EnvAdapter):
+    def __init__(self, *args, **kwargs):
+        super(GymEnvAdapter, self).__init__(*args, **kwargs)
+        self.env = gym.make(self.env_name)
 
     def get_continuous_space_len(self):
         return self.env.action_space.shape[0]

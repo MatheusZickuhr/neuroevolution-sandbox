@@ -1,5 +1,3 @@
-import os
-
 from python_ne.core.ga.console_logger import ConsoleLogger
 from python_ne.core.ga.crossover_strategies import Crossover4
 from python_ne.core.ga.mutation_strategies import Mutation1
@@ -8,18 +6,8 @@ from python_ne.core.model_adapters.default_model_adapter import DefaultModelAdap
 from neuroevolution_sandbox.agents.ne_agent import NeAgent
 from neuroevolution_sandbox.env_adapters.ple_env_adapter import PleEnvAdapter
 
-os.putenv('SDL_VIDEODRIVER', 'fbcon')
-os.environ["SDL_VIDEODRIVER"] = "dummy"
-
-
-from ple.games.flappybird import FlappyBird
-from ple import PLE
-
 if __name__ == '__main__':
-    env = PLE(FlappyBird(), display_screen=False, force_fps=True)
-    env.init()
-
-    env_adapter = PleEnvAdapter(env=env)
+    env_adapter = PleEnvAdapter(env_name='flappybird', render=True)
 
     agent = NeAgent(
         env_adapter=env_adapter,

@@ -1,6 +1,3 @@
-# example
-
-```python
 import neat
 
 from neuroevolution_sandbox.agents.neat_agent import NeatAgent
@@ -18,5 +15,3 @@ agent.train(
 )
 
 agent.save('model')
-
-```
