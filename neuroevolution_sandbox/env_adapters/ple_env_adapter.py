@@ -48,9 +48,9 @@ class PleEnvAdapter(EnvAdapter):
         self.env.reset_game()
 
     def step(self, action) -> (object, float, bool):
+        reward = self.env.act(self.env.getActionSet()[action])
         observation = self.env.getGameState()
         observation = [val for key, val in observation.items()]
-        reward = self.env.act(self.env.getActionSet()[action])
         done = self.env.game_over()
         return observation, reward, done
 
