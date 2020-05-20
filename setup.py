@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='neuroevolution-sandbox',
     packages=['neuroevolution_sandbox', 'neuroevolution_sandbox/agents',  'neuroevolution_sandbox/env_adapters'],
-    version='0.1',
+    version='0.2',
     license='MIT',
     description='A neuroevolution sandbox with NE and NEAT agents. Compatible with gym and ple with the option to add more envs.',
     author='Matheus Zickuhr',
